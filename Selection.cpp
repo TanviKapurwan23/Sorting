@@ -1,47 +1,29 @@
-class Solution {
-public:
-    int minimizeXor(int num1, int num2) {
-        // Initialize result to num1. We will modify result.
-        int result = num1;
-
-        int targetSetBitsCount = __builtin_popcount(num2);
-        int setBitsCount = __builtin_popcount(result);
-
-        // Start with the least significant bit (bit 0).
-        int currentBit = 0;
-
-        // Add bits to result if it has fewer set bits than the target.
-        while (setBitsCount < targetSetBitsCount) {
-            // If the current bit in result is not set (0), set it to 1.
-            if (!isSet(result, currentBit)) {
-                setBit(result, currentBit);
-                setBitsCount++;
+//Naive 
+void selectSort(arr, n){
+    int temp[n];
+    for(int i=0; i<n; i++){
+        int mid_ind = 0;
+        for(int j=1; j<n; j++){
+            if(arr[j] < arr[min_ind]){
+                min_ind = j;
             }
-            // Move to the next bit.
-            currentBit++;
         }
-
-        // Remove bits from result if it has more set bits than the target.
-        while (setBitsCount > targetSetBitsCount) {
-            // If the current bit in result is set (1), unset it (make it 0).
-            if (isSet(result, currentBit)) {
-                unsetBit(result, currentBit);
-                setBitsCount--;
-            }
-            // Move to the next bit.
-            currentBit++;
-        }
-
-        return result;
+        temp[i] = arr[mid_ind];
+        arr[min_ind] = INF;
     }
+    for(int i=0; i<n; i++){
+        arr[i] = temp[i];
+    }
+}
 
-private:
-    // Helper function to check if the given bit position in x is set (1).
-    bool isSet(int x, int bit) { return x & (1 << bit); }
-
-    // Helper function to set the given bit position in x to 1.
-    void setBit(int &x, int bit) { x |= (1 << bit); }
-
-    // Helper function to unset the given bit position in x (set it to 0).
-    void unsetBit(int &x, int bit) { x &= ~(1 << bit); }
-};
+void selectSort(arr, n){
+    for(int i=0; i<n-1; i++){
+        min_ind = i;
+        for(int j=i+1; j<n; j++){
+            if(arr[j] < arr[min_ind]){
+                min_ind = j;
+            }
+        }
+        swap(arr[min_ind], arr[i]);
+    }
+}
